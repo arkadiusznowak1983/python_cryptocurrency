@@ -42,10 +42,12 @@ class PublicRegister:
         self.sqliteConnection.commit()
 
     def transaction(self, coinId, newPublicKey, sign):
+        print("SIGN: {0}".format(sign))
+
         if self.verify( coinId = coinId, sign = sign ):
             self.replacePublicKey( coinId = coinId, newPublicKey = newPublicKey )
-            print( "Pub Key replaced" )
+            # print( "Pub Key replaced" )
             return True
         else:
-            print( "Invalid signature" )
+            # print( "Invalid signature" )
             return False

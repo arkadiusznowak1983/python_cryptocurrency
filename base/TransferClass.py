@@ -41,6 +41,7 @@ class Transfer:
     def signNewTransaction( self ):
         digest = SHA256.new()
         digest.update( self.getCoin().getKeys().pubKey.exportKey() )
+        print( "PUB: {0}".format(self.getCoin().getKeys().pubKey.exportKey()) )
         signer = PKCS1_v1_5.new( self.getCoin().getKeys().getPrivKey() )
         self.setSignature( signature = binascii.hexlify( signer.sign( digest ) ) )
         return self.getSignature()
@@ -52,10 +53,10 @@ class Transfer:
         print("Dane zlecenia zmiany wlasciciela monety w rejestrze publicznym")
         print((self.getCoin().getCoinId()
                , self.getNewKeys().getPubKey().exportKey()
-               , self.getSignature()))
+               , self.getSignature().decode( 'ascii' )))
         if self.publicRegister.transaction( coinId = self.getCoin().getCoinId()
                                            ,newPublicKey = self.getNewKeys().getPubKey().exportKey().decode( 'ascii' )
-                                           ,sign = self.getSignature() ):
+                                           ,sign = self.getSignature().decode( 'ascii' ) ):
             print( "Powodzenie zamiany klucza publicznego" )
             self.wallet.addCoinToWallet( coinId = self.getCoin().getCoinId()
                                         ,privateKey = self.getNewKeys().getPrivKey().exportKey().decode( 'ascii' ) )
