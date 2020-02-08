@@ -1,0 +1,11 @@
+# list all
+curl -i http://127.0.0.1:5002/all
+
+# get coin
+curl -i http://127.0.0.1:5002/coin/1
+
+curl -i http://127.0.0.1:5002/transaction/coin/1 --header "Content-Type: application/json" --request POST --data "{\"publicKey\":\"-----BEGIN PUBLIC KEY-----\nMIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCjLsS+VaDbFHVrMCUfTXh80dX3\nPImki8nT8ThMS6pbYWiPm9GUtUrxHPBldHjXxm+6Hf7a5j6VDLVSqB+jSnfbqsDQ\nTAVhv74ty0C3Co87/kegkKU2PH0X3Pf73xM96A6CGgT+iGcOYQzimX4mvojLPK16\nYCbHwuBKTpTsSuEAaQIDAQAB\n-----END PUBLIC KEY-----\", \"sign\":\"14505f50058e051ce22a67e3f24d10e5d0ceb5e006b6c7e568a040c9a386805a2acd8e75057c081e473b3448a9e239dc222cce2f71759306c9e6eccb88c69647b4e481e89ede09c76c9005bb9b3e133e4e673b1ebcff4ef7b158e744460b1961d534f4111d81931fe1cc32597e8f332f086f15f4838b16633c4d32f1022f63e2\"}"
+
+
+# transaction
+
