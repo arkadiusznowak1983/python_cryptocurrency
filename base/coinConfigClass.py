@@ -3,6 +3,7 @@ from coin_pkg import *
 class coinConfig:
     keyLength = 1024
     db_file = 'r:\coin\pycharm\coin\coin_pkg\data\SQLite_coin.db'
+    db_file_pub_register = 'r:\coin\pycharm\coin\coin_pkg\data\sqllite_coin_public_register.db'
 
     createTablePubReg = """ CREATE TABLE IF NOT EXISTS pub_register( coinId integer PRIMARY KEY
                                                                     ,pubKey text NOT NULL );"""
