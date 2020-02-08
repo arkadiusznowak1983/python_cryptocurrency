@@ -1,0 +1,4 @@
+__pycache__
+coin_pkg.egg-info
+build
+dist
