@@ -1,0 +1,56 @@
+[założenia]
+1. moneta
+1.1. unikalna
+1.2. niepodzielna
+1.3. niezamienialna
+1.4. jej liczebność jest z góry ustalona i stała (patrz centralny rejestr)
+1.5. składa się z trzech atrybutów
+1.5.1. unikalne id monety
+1.5.2. klucz publiczny (ogólnodostępny)
+1.5.2.1. ogólnodostępny (patrz centralny rejestr)
+1.5.2.2. jednorazowy (zmienia się wraz ze zmianą właściciela monety)
+1.5.3. klucz prywatny (właścicielski)
+1.5.3.1. określa właściciela (tylko właściciel monety go posiada)
+1.5.3.2. niezbywalny (nie jest przekazywany)
+1.5.3.3. autoryzacyjny (tylko ten klucz pozwala na zmianę klucza publicznego monety, patrz centralny rejestr)
+1.5.3.4. jednorazowy (zmienia się wraz ze zmianą właściciela monety)
+   
+[stan początkowy]
+1. tworzony jest rejestr publiczny będący zbiorem rekordów/elementów zwanych "monetą"
+1.1. liczność rejestru jest z góry ustalona i oznacza maksymalną ilość monet w systemie
+1.2. na monetę składają się dwa atrybuty rejestru publicznego oraz jeden atrybut niepubliczny znajdujący się poza rejestrem
+1.2.1. - dla każej monety tworzony jest jest id unkalny w ramach rejestru publicznego i całego systemu
+1.2.2. - dla każdej monety generowana jest para kluczy asymetrycznych publiczny i prywatny
+1.2.2.1. - klucz publiczny jest ogólnodostępny w rejestrze publicznym jako drugi atrybut monety
+1.2.2.2. - klucz prywatny przekazywany jest wydawcy systemu wraz z jej unikalnym id
+2. - wydawca systemu tworzy prywatny rejestr posiadanych monet skłądający sie z dwóch atrybutów
+2.1. - unikalne id moenty
+2.2. - klucz prywatny monety (sparowany z kluczem publicznym monety rejestru publicznego)
+3. - na tym etapie jedyną publiczną informacją jest ilość monet w systemie i nie jest już możliwe ustalenie kto jest w posiadaniu jakich monet
+3.1. - tylko wydawca (czyli właściciel monet) jest w stanie stwierdzić ile jest monet w jego prywatnym rejestrze
+
+[transakcja]
+1. - wydawca zwany dalej właścicielem posiada prywatny rejestr posiadanych monet
+1.1. - ilość posiadanych unikalnych id monety z przypisanymi kluczami prywatnymi oznacza stan posiadania czyli "balance portfela"
+1.2. - odbiorca nie jest w stanie zweryfikować czy nadawca posiada środki
+1.3. - transakcja dotyczy pojedynczej moenty więc przekazanie określonej liczby monet wymaga oddzielnej transakcji dla każdej z nich
+2. - przekazanie monety (odbywa się poprzez wygenerowanie nowej pary kluczy asymetrycznych i aktualizację klucza publicznego w rejestrze publicznym autoryzując się aktualnym kluczem prywatnym)
+2.1. - nadawca przekazuje odbiorcy id monety
+2.2. - odbiorca weryfikuje istnienie moenty w rejestrze publicznym
+2.3. - odbiorca generuje parę kluczy asymetrycznych publiczny i prywatny dla monety
+2.4. - odbiorca przekazuje nadawcy informację o nowym kluczu publicznym i id monety, której on dotyczy
+2.5. - nadawca pobiera z rejestru publicznego klucz publiczny moenty i podpisuje jego skrót(hash) za pomocą posiadanego klucza prywatnego tworząc "podpis"
+2.6. - żądanie przeniesienia włąsności w rejestrze publicznym
+2.6.1. - nadawca przekazuje do rejestru publicznego id monety wraz z wygenerowanym podpisem i nową wartośćią klucza publicznego otrzymaną od odbiorcy monety
+2.6.2. - rejestr publiczny weryfikuje zasadność żądania
+2.6.2.1. - sprawdza czy dany id monety istnieje (jeżeli niepoprawny to odrzuca żądanie)
+2.6.2.2. - za pomocą klucza publicznego monety w rejestrze publicznym weryfikuje otrzymany podpis (jeżeli niepoprawny to odrzuca żądanie)
+2.6.2.3. - aktualizuje klucz publiczny moenty w rejestrze publicznym
+2.6.2.4. - rejestr publiczny zwraca informację o powodzeniu
+2.6.3. - zbycie monety u nadawcy
+2.6.3.1. - nadawca weryfikuje czy rejestr publiczny zawiera nowy klucz publiczny dla monety
+2.6.3.2. - nadawca pozbywa się rekordu moenty ze swojego rejestru prywatnego
+2.6.3.3. - nadawca przekazuje odbiorcy informację o powodzeniu transferu
+2.7. - dodanie moenty u odbiorcy
+2.7.1. - odbiorca weryfikuje czy rejestr publiczny dla monety zawiera identyczny klucz publiczny jak przekazany nadawcy(jeżeli nie to transakcja zakonczona niepowodzeniem)
+2.7.2. - odbiorca dodaje do swojego rejestru prywatnego id monety wraz z nowonadanym jej kluczem prywatnym
