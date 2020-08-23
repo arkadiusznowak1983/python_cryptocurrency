@@ -1,1 +1,1 @@
-Readme
+Read coin_info.txt
